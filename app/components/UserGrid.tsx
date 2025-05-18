@@ -7,6 +7,8 @@ export default function UserGrid() {
     data: users,
     isLoading,
     isError,
+    isFetching,
+    refetch,
     error,
   } = useQuery({
     queryKey: ["users"],
@@ -15,6 +17,10 @@ export default function UserGrid() {
       const users = await data.json();
       return users;
     },
+    staleTime: 0, //+ can set the time for fetching data(after the given time) again on request
+    // refetchInterval: 1000, //+ automatically fetch the data after given time.
+    // refetchIntervalInBackground: true, //  API will be called even after the tab is changed
+    enabled: false, // data fetching stops
   });
 
   if (isLoading) {
@@ -35,6 +41,9 @@ export default function UserGrid() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* <button className="p-10 bg-amber-200" onClick={refetch}>
+        Call Users
+      </button> */}
       {users?.map((user) => (
         <Users key={user.id} user={user} />
       ))}
