@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <>
       {/* Navigation Links */}
-      <nav className="hidden md:flex items-center gap-6">
+      <nav className="hidden md:flex items-center gap-6 container">
         <Link href="/" className="hover:text-primary transition-colors">
           Home
         </Link>

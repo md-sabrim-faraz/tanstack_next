@@ -20,8 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <TanStackQueryProviders>
-          <Header />
-          <main>{children}</main>
+          <div className="min-h-screen bg-background">
+            <Header />
+            <main className="container mx-auto px-4 py-8">{children}</main>
+          </div>
         </TanStackQueryProviders>
       </body>
     </html>

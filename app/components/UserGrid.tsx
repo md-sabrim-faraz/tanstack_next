@@ -20,7 +20,7 @@ export default function UserGrid() {
     staleTime: 0, //+ can set the time for fetching data(after the given time) again on request
     // refetchInterval: 1000, //+ automatically fetch the data after given time.
     // refetchIntervalInBackground: true, //  API will be called even after the tab is changed
-    enabled: false, // data fetching stops
+    // enabled: false, // data fetching stops
   });
 
   if (isLoading) {
