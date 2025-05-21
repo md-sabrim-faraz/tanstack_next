@@ -1,8 +1,22 @@
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import Users from "./Users";
+import { Pagination } from "@/components/ui/pagination";
+import PaginationPage from "./Pagination";
+
+const fetchUsers = async (pageId: number) => {
+  console.log(pageId);
+
+  const data = await fetch(
+    `https://jsonplaceholder.typicode.com/users?_limit=3&_page=${pageId}`
+  );
+  const users = await data.json();
+  return users;
+};
 
 export default function UserGrid() {
+  const [page, setPage] = useState(1);
+
   const {
     data: users,
     isLoading,
@@ -11,16 +25,13 @@ export default function UserGrid() {
     refetch,
     error,
   } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const data = await fetch("https://jsonplaceholder.typicode.com/users");
-      const users = await data.json();
-      return users;
-    },
+    queryKey: ["users", page],
+    queryFn: () => fetchUsers(page),
     staleTime: 0, //+ can set the time for fetching data(after the given time) again on request
-    // refetchInterval: 1000, //+ automatically fetch the data after given time.
+    // refetchInterval: 10000, //+ automatically fetch the data after given time.
     // refetchIntervalInBackground: true, //  API will be called even after the tab is changed
     // enabled: false, // data fetching stops
+    placeholderData: keepPreviousData, // stops showing the loading, keeps the previous data, makes better the user experience
   });
 
   if (isLoading) {
@@ -47,6 +58,11 @@ export default function UserGrid() {
       {users?.map((user) => (
         <Users key={user.id} user={user} />
       ))}
+      <PaginationPage
+        totalUsers={users?.length}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 }

@@ -21,9 +21,8 @@ export default function UserDetails({ id }: { id: string }) {
       const user = await data.json();
       return user;
     },
+    staleTime: 0,
   });
-
-  console.log(user);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
